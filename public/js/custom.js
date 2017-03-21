@@ -58,6 +58,21 @@ $("#itinerary").on('click', function(e){
 //restaurant button
 $("#restaurant-button").on("click", function(){
    let selected = $("#restaurant-choices").val();
-   let addToItinerary =  '<div class="itinerary-item"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>'
+   let addToItinerary =  '<div class="itinerary-item day-'+ currentDay +'"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>';
    $("#restaurant-itinerary").append(addToItinerary);
+});
+
+let currentDay =1;
+//day buttons
+$(".day-buttons").on("click", function(e){
+  //add a day
+  if (e.target.id == "day-add"){
+      $(e.target).before('<button class="btn btn-circle day-btn">' + this.children.length + '</button>');
+  } else {
+     console.log($("#itinerary").children(".day-"+currentDay));
+
+    //toggle between days
+    //find out day number from target clicked
+    //
+  }
 });
