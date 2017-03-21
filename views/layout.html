@@ -35,5 +35,11 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwCZ2SngOxzWvdSAL0ICLRW5P3czSwBzI"></script>
     <script src="/js/map.js"></script>
 
+    <script>
+    var hotels = {{ hotels | dump | safe }};
+    var restaurants = {{ restaurants | dump | safe }};
+    var activities = {{ activities | dump | safe }};
+    </script>
+    <script src="/js/custom.js"></script>
   </body>
 </html>

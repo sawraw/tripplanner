@@ -93,51 +93,9 @@
   </div>
 </div>
 
-
+<!--
 <script src = "/jquery/dist/jquery.min.js"> </script>
 <script>
-  
-  var hotels = {{ hotels | dump | safe }};
-  var restaurants = {{ restaurants | dump | safe }};
-  var activities = {{ activities | dump | safe }};
-  console.log(hotels);
 
-  let hotelNames = hotels.map(function(hotel){
-    return "<option>" + hotel.name + "</option>"
-  }).join("");
- $("#hotel-choices").html(hotelNames);
-
-   let restaurantNames = restaurants.map(function(restaurant){
-    return "<option>" + restaurant.name + "</option>"
-  }).join("");
- $("#restaurant-choices").html(restaurantNames);
-
-   let activityNames = activities.map(function(activity){
-    return "<option>" + activity.name + "</option>"
-  }).join("");
- $("#activity-choices").html(activityNames);
-
-//hotel button
- $("#hotel-button").on("click", function(){
-   let selected = $("#hotel-choices").val();
-   let addToItinerary =  '<div class="itinerary-item"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>'   
-   $("#hotel-itinerary").append(addToItinerary);
-});
-
-//activity button
- $("#activity-button").on("click", function(){
-   let selected = $("#activity-choices").val();
-   let addToItinerary =  '<div class="itinerary-item"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>'   
-   $("#activity-itinerary").append(addToItinerary);
-});
-
-//restaurant button 
-$("#restaurant-button").on("click", function(){
-   let selected = $("#restaurant-choices").val();
-   let addToItinerary =  '<div class="itinerary-item"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>'   
-   $("#restaurant-itinerary").append(addToItinerary);
-});
-
-//  document.getElementById("#restaurant-choices").html
-</script>
+</script>-->
 {% endblock %}
