@@ -8,6 +8,16 @@
     hotelLocations[hotel.name]={lat: hotel.place.location[0], lng: hotel.place.location[1]};
   });
 
+  let  activityLocations = {};
+  activities.forEach(function(hotel){
+    hotelLocations[hotel.name]={lat: hotel.place.location[0], lng: hotel.place.location[1]};
+  });
+
+  let  restaurantLocations = {};
+  restaurants.forEach(function(hotel){
+    hotelLocations[hotel.name]={lat: hotel.place.location[0], lng: hotel.place.location[1]};
+  });
+
   let hotelNames = hotels.map(function(hotel){
     return "<option>" + hotel.name + "</option>"
   }).join("");
@@ -31,13 +41,21 @@
    $("#hotel-itinerary").append(addToItinerary);
   //  let location = hotelLocations[selected];
   //  console.dir(location);
-  let currentMap = $('#map');
+  // let currentMap = $('#map');
    let marker = new google.maps.Marker({
      position: hotelLocations[selected],
      map: map,
      icon: '/images/lodging_0star.png'
    });
+  //  if(!markers[currentDay])markers[currentDay]={}
   markers[selected] = marker;
+
+  var bounds = new google.maps.LatLngBounds();
+  for (let mark in markers) {
+     bounds.extend(markers[mark].getPosition());
+  }
+  map.fitBounds(bounds);
+  // map.panToBounds(hotelLocations[selected]);
 });
 
 
@@ -46,6 +64,19 @@
    let selected = $("#activity-choices").val();
    let addToItinerary =  '<div class="itinerary-item day-'+ currentDay +'"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>';
    $("#activity-itinerary").append(addToItinerary);
+
+      let marker = new google.maps.Marker({
+     position: hotelLocations[selected],
+     map: map,
+     icon: '/images/star-3.png'
+   });
+  markers[selected] = marker;
+
+  var bounds = new google.maps.LatLngBounds();
+  for (let mark in markers) {
+     bounds.extend(markers[mark].getPosition());
+  }
+  map.fitBounds(bounds);
 });
 
 //restaurant button
@@ -53,6 +84,19 @@ $("#restaurant-button").on("click", function(){
    let selected = $("#restaurant-choices").val();
    let addToItinerary =  '<div class="itinerary-item day-'+ currentDay +'"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>';
    $("#restaurant-itinerary").append(addToItinerary);
+
+  let marker = new google.maps.Marker({
+     position: hotelLocations[selected],
+     map: map,
+     icon: '/images/restaurant.png'
+   });
+  markers[selected] = marker;
+
+  var bounds = new google.maps.LatLngBounds();
+  for (let mark in markers) {
+     bounds.extend(markers[mark].getPosition());
+  }
+  map.fitBounds(bounds);
 });
 
 let currentDay =1;
@@ -67,13 +111,13 @@ $(".day-buttons").on("click", function(e){
       let dayClass = "day-"+currentDay;
       [...$(".itinerary-item")].forEach(function(i){
          if ($(i).hasClass(dayClass)){
-            $(i).show(); 
-        } 
+            $(i).show();
+        }
         else {
           $(i).hide();
         }
     });
-     
+
     //toggle between days
     //find out day number from target clicked
     //
@@ -82,10 +126,18 @@ $(".day-buttons").on("click", function(e){
 
 $("#itinerary").on('click', function(e){
   let deletedName = $(e.target).prev().text();
-//hasClass("itinerary-item") 
+//hasClass("itinerary-item")
   if ($(e.target).hasClass('btn')) {
     $(e.target).parent().detach();
     markers[deletedName].setMap(null);
+    delete markers[deletedName];
   // event.stopPropagation();
+  var bounds = new google.maps.LatLngBounds();
+  for (let mark in markers) {
+     bounds.extend(markers[mark].getPosition());
   }
+  if(Object.keys(markers).length)map.fitBounds(bounds);
+
+}
+
 });
