@@ -27,7 +27,7 @@
  $("#hotel-button").on("click", function(){
    let selected = $("#hotel-choices").val();
   //  console.log($("option:contains(selected)"));
-   let addToItinerary =  '<div class="itinerary-item"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>'
+   let addToItinerary =  '<div class="itinerary-item day-'+ currentDay +'"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>';
    $("#hotel-itinerary").append(addToItinerary);
   //  let location = hotelLocations[selected];
   //  console.dir(location);
@@ -40,18 +40,11 @@
   markers[selected] = marker;
 });
 
-$("#itinerary").on('click', function(e){
-  let deletedName = $(e.target).prev().text();
-  console.log(deletedName);
-  $(e.target).parent().detach();
-  markers[deletedName].setMap(null);
-  // event.stopPropagation();
-})
 
 //activity button
  $("#activity-button").on("click", function(){
    let selected = $("#activity-choices").val();
-   let addToItinerary =  '<div class="itinerary-item"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>'
+   let addToItinerary =  '<div class="itinerary-item day-'+ currentDay +'"> <span class="title">'+ selected + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>';
    $("#activity-itinerary").append(addToItinerary);
 });
 
@@ -69,10 +62,30 @@ $(".day-buttons").on("click", function(e){
   if (e.target.id == "day-add"){
       $(e.target).before('<button class="btn btn-circle day-btn">' + this.children.length + '</button>');
   } else {
-     console.log($("#itinerary").children(".day-"+currentDay));
 
+      currentDay = +$(e.target).text();
+      let dayClass = "day-"+currentDay;
+      [...$(".itinerary-item")].forEach(function(i){
+         if ($(i).hasClass(dayClass)){
+            $(i).show(); 
+        } 
+        else {
+          $(i).hide();
+        }
+    });
+     
     //toggle between days
     //find out day number from target clicked
     //
+  }
+});
+
+$("#itinerary").on('click', function(e){
+  let deletedName = $(e.target).prev().text();
+//hasClass("itinerary-item") 
+  if ($(e.target).hasClass('btn')) {
+    $(e.target).parent().detach();
+    markers[deletedName].setMap(null);
+  // event.stopPropagation();
   }
 });
